@@ -85,26 +85,26 @@ describe('getBreakpoint()', () => {
 });
 
 describe('isValidCtaHref()', () => {
-  test('returns true for a valid anchor href', () => {
+  test('returns true for valid hash href "#cta"', () => {
     // Arrange
-    const href = '#features';
+    const href = '#cta';
     // Act
     const result = isValidCtaHref(href);
     // Assert
     expect(result).toBe(true);
   });
 
-  test('returns false for bare hash (#)', () => {
+  test('returns false for bare "#" with no target', () => {
     // Arrange / Act / Assert
     expect(isValidCtaHref('#')).toBe(false);
   });
 
-  test('returns false for empty string', () => {
-    expect(isValidCtaHref('')).toBe(false);
-  });
-
   test('returns false for external URL', () => {
     expect(isValidCtaHref('https://example.com')).toBe(false);
+  });
+
+  test('returns false for empty string', () => {
+    expect(isValidCtaHref('')).toBe(false);
   });
 
   test('returns false for null', () => {
@@ -114,37 +114,39 @@ describe('isValidCtaHref()', () => {
   test('returns false for undefined', () => {
     expect(isValidCtaHref(undefined)).toBe(false);
   });
+
+  test('returns true for "#features" (multi-character anchor)', () => {
+    expect(isValidCtaHref('#features')).toBe(true);
+  });
 });
 
 describe('scaledFontSize()', () => {
-  test('returns a number for valid inputs at desktop width', () => {
-    // Arrange / Act
-    const result = scaledFontSize('1', 1280);
-    // Assert
-    expect(typeof result).toBe('number');
-  });
-
-  test('returns null when viewport is below minPx', () => {
+  test('returns null when viewport is below minimum (320px)', () => {
     // Arrange / Act / Assert
-    expect(scaledFontSize('1', 300)).toBeNull();
+    expect(scaledFontSize('1rem', 319)).toBeNull();
   });
 
-  test('desktop result is greater than mobile result (scales up)', () => {
+  test('returns a number for valid viewport at 375px', () => {
     // Arrange
-    const mobile = scaledFontSize('1', 320);
-    const desktop = scaledFontSize('1', 1280);
+    const result = scaledFontSize('1rem', 375);
     // Act / Assert
-    expect(desktop).toBeGreaterThan(mobile);
+    expect(typeof result).toBe('number');
+    expect(result).toBeGreaterThan(0);
   });
 
-  test('returns null at exactly minPx boundary when viewport equals minPx - 1', () => {
-    expect(scaledFontSize('1', 319, 320)).toBeNull();
+  test('scale is capped at 1280px — same result for 1280px and 1920px', () => {
+    // Arrange / Act
+    const at1280 = scaledFontSize('2rem', 1280);
+    const at1920 = scaledFontSize('2rem', 1920);
+    // Assert — both viewports hit the scale cap
+    expect(at1280).toBe(at1920);
   });
 
-  test('caps scale at 1 for viewports wider than 1280px', () => {
-    const at1280 = scaledFontSize('1', 1280);
-    const at2560 = scaledFontSize('1', 2560);
-    // scale is clamped to 1, so both should yield the same value
-    expect(at1280).toBe(at2560);
+  test('font size at 768px is larger than at 375px', () => {
+    // Arrange / Act
+    const mobile = scaledFontSize('1rem', 375);
+    const tablet = scaledFontSize('1rem', 768);
+    // Assert
+    expect(tablet).toBeGreaterThan(mobile);
   });
 });
