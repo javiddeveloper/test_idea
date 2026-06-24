@@ -25,19 +25,6 @@ function initCtaButtons() {
   });
 }
 
-/**
- * Logs the current viewport width for responsive debugging.
- */
-function logViewport() {
-  const width = window.innerWidth;
-  let breakpoint = 'mobile (< 768px)';
-  if (width >= 1280) breakpoint = 'desktop (>= 1280px)';
-  else if (width >= 768) breakpoint = 'tablet (>= 768px)';
-  console.info(`[ttttt] Viewport: ${width}px — ${breakpoint}`);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   initCtaButtons();
-  logViewport();
-  window.addEventListener('resize', logViewport);
 });
