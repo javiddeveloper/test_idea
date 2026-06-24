@@ -151,23 +151,18 @@ a {
   color: var(--color-primary);
 }
 
-/* ===== Hero — mobile-first: single column ===== */
+/* ===== Hero ===== */
 .hero {
+  padding: var(--spacing-2xl) 0;
   background-color: var(--color-bg-alt);
-  padding-block: var(--spacing-2xl);
 }
 
 .hero__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-lg);
-  align-items: center;
-}
-
-.hero__text {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-lg);
+  align-items: center;
+  text-align: center;
 }
 
 .hero__title {
@@ -180,24 +175,32 @@ a {
 .hero__subtitle {
   font-size: var(--font-size-lg);
   color: var(--color-text-light);
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.hero__image {
+  width: 100%;
+  max-width: 480px;
 }
 
 .hero__img {
+  width: 100%;
+  height: auto;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  width: 100%;
 }
 
-/* ===== Features — mobile-first: single column ===== */
+/* ===== Features ===== */
 .features {
-  padding-block: var(--spacing-2xl);
+  padding: var(--spacing-2xl) 0;
 }
 
 .section__title {
   font-size: var(--font-size-2xl);
   font-weight: 700;
   text-align: center;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
   color: var(--color-text);
 }
 
@@ -211,7 +214,7 @@ a {
   background-color: var(--color-bg-alt);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   text-align: center;
   box-shadow: var(--shadow-sm);
   transition: box-shadow var(--transition), transform var(--transition);
@@ -224,64 +227,75 @@ a {
 
 .feature-card__icon {
   font-size: 2.5rem;
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
 }
 
 .feature-card__title {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
   color: var(--color-text);
 }
 
 .feature-card__desc {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   color: var(--color-text-light);
 }
 
 /* ===== CTA Section ===== */
 .cta-section {
+  padding: var(--spacing-2xl) 0;
   background-color: var(--color-primary);
-  padding-block: var(--spacing-2xl);
+  color: #ffffff;
 }
 
 .cta-section__inner {
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-sm);
+  text-align: center;
+  gap: var(--spacing-md);
 }
 
 .cta-section__title {
   font-size: var(--font-size-2xl);
   font-weight: 700;
-  color: #ffffff;
 }
 
 .cta-section__sub {
-  font-size: var(--font-size-base);
-  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--font-size-lg);
+  opacity: 0.9;
   max-width: 48ch;
 }
 
 /* ===== Footer ===== */
 .footer {
-  background-color: var(--color-bg-alt);
+  padding: var(--spacing-lg) 0;
+  background-color: var(--color-bg);
   border-top: 1px solid var(--color-border);
-  padding-block: var(--spacing-md);
 }
 
 .footer__copy {
+  text-align: center;
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
-  text-align: center;
 }
 
-/* ===== Responsive — Tablet (>= 768px) ===== */
+/* ===== Responsive: Tablet (768px+) ===== */
 @media (min-width: 768px) {
   .hero__inner {
-    grid-template-columns: 1fr 1fr;
+    flex-direction: row;
+    text-align: right;
+    justify-content: space-between;
+  }
+
+  .hero__text {
+    flex: 1;
+  }
+
+  .hero__image {
+    flex: 1;
+    max-width: none;
   }
 
   .hero__title {
@@ -291,19 +305,26 @@ a {
   .features__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .cta-section__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: right;
+  }
 }
 
-/* ===== Responsive — Desktop (>= 1280px) ===== */
+/* ===== Responsive: Desktop (1280px+) ===== */
 @media (min-width: 1280px) {
   .hero__title {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
   }
 
   .features__grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .container {
-    padding-inline: var(--spacing-lg);
+  .cta-section__inner {
+    max-width: 900px;
+    margin-inline: auto;
   }
 }
