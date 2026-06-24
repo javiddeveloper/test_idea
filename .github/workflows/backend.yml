@@ -1,0 +1,19 @@
+name: CI backend
+on:
+  pull_request:
+    branches: [ develop ]
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: install & test
+        run: |
+          cd backend
+          pip install -r requirements.txt 2>/dev/null || pip install django djangorestframework pytest pytest-django
+          python -m pytest -q
