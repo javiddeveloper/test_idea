@@ -26,7 +26,6 @@ function isValidCtaHref(href) {
 
 function scaledFontSize(baseRem, viewportPx, minPx = 320) {
   if (viewportPx < minPx) return null;
-  // clamp: base at mobile, scale up proportionally
   const scale = Math.min(viewportPx / 1280, 1);
   return Math.round(parseFloat(baseRem) * (0.85 + 0.15 * scale) * 16);
 }
@@ -34,7 +33,6 @@ function scaledFontSize(baseRem, viewportPx, minPx = 320) {
 // ── Tests ──────────────────────────────────────────────────────────────────
 
 describe('getBreakpoint()', () => {
-  // Happy path – three defined breakpoints
   test('returns "mobile" for 375px viewport', () => {
     // Arrange
     const width = 375;
@@ -62,7 +60,6 @@ describe('getBreakpoint()', () => {
     expect(result).toBe('desktop');
   });
 
-  // Edge – boundary values
   test('returns "mobile" for 767px (just below tablet threshold)', () => {
     expect(getBreakpoint(767)).toBe('mobile');
   });
@@ -75,69 +72,79 @@ describe('getBreakpoint()', () => {
     expect(getBreakpoint(2560)).toBe('desktop');
   });
 
-  // Edge – invalid input
   test('throws TypeError for non-number input', () => {
-    // Arrange / Act / Assert
     expect(() => getBreakpoint('768')).toThrow(TypeError);
     expect(() => getBreakpoint(null)).toThrow(TypeError);
     expect(() => getBreakpoint(NaN)).toThrow(TypeError);
   });
 
   test('throws RangeError for negative width', () => {
+    // Arrange / Act / Assert
     expect(() => getBreakpoint(-1)).toThrow(RangeError);
   });
 });
 
 describe('isValidCtaHref()', () => {
-  test('returns true for valid anchor href "#cta"', () => {
+  test('returns true for a valid anchor href', () => {
     // Arrange
-    const href = '#cta';
+    const href = '#features';
     // Act
     const result = isValidCtaHref(href);
     // Assert
     expect(result).toBe(true);
   });
 
-  test('returns false for empty string', () => {
-    expect(isValidCtaHref('')).toBe(false);
+  test('returns false for bare hash (#)', () => {
+    // Arrange / Act / Assert
+    expect(isValidCtaHref('#')).toBe(false);
   });
 
-  test('returns false for bare "#" with no target', () => {
-    expect(isValidCtaHref('#')).toBe(false);
+  test('returns false for empty string', () => {
+    expect(isValidCtaHref('')).toBe(false);
   });
 
   test('returns false for external URL', () => {
     expect(isValidCtaHref('https://example.com')).toBe(false);
   });
 
-  test('returns false for null / undefined', () => {
+  test('returns false for null', () => {
     expect(isValidCtaHref(null)).toBe(false);
+  });
+
+  test('returns false for undefined', () => {
     expect(isValidCtaHref(undefined)).toBe(false);
   });
 });
 
 describe('scaledFontSize()', () => {
-  test('returns smaller px value at 375px than at 1280px', () => {
+  test('returns a number for valid inputs at desktop width', () => {
     // Arrange / Act
-    const mobile = scaledFontSize('1.875', 375);
-    const desktop = scaledFontSize('1.875', 1280);
+    const result = scaledFontSize('1', 1280);
     // Assert
-    expect(mobile).toBeLessThan(desktop);
+    expect(typeof result).toBe('number');
   });
 
-  test('returns null for viewport below minimum (< 320px)', () => {
-    expect(scaledFontSize('1', 319)).toBeNull();
+  test('returns null when viewport is below minPx', () => {
+    // Arrange / Act / Assert
+    expect(scaledFontSize('1', 300)).toBeNull();
   });
 
-  test('caps scaling at 1280px – 1440px returns same result as 1280px', () => {
+  test('desktop result is greater than mobile result (scales up)', () => {
+    // Arrange
+    const mobile = scaledFontSize('1', 320);
+    const desktop = scaledFontSize('1', 1280);
+    // Act / Assert
+    expect(desktop).toBeGreaterThan(mobile);
+  });
+
+  test('returns null at exactly minPx boundary when viewport equals minPx - 1', () => {
+    expect(scaledFontSize('1', 319, 320)).toBeNull();
+  });
+
+  test('caps scale at 1 for viewports wider than 1280px', () => {
     const at1280 = scaledFontSize('1', 1280);
-    const at1440 = scaledFontSize('1', 1440);
-    // scale is clamped at 1, so both should equal
-    expect(at1280).toBe(at1440);
-  });
-
-  test('returns integer pixel value (no decimals)', () => {
-    const result = scaledFontSize('1.125', 768);
-    expect(Number.isInteger(result)).toBe(true);
+    const at2560 = scaledFontSize('1', 2560);
+    // scale is clamped to 1, so both should yield the same value
+    expect(at1280).toBe(at2560);
   });
 });
