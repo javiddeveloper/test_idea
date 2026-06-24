@@ -134,36 +134,33 @@ a {
   font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-primary);
-  letter-spacing: 0.05em;
 }
 
 .nav {
   display: flex;
   gap: var(--spacing-md);
-  flex-wrap: wrap;
 }
 
 .nav a {
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
   transition: color var(--transition);
-  padding: var(--spacing-xs) 0;
 }
 
 .nav a:hover {
   color: var(--color-primary);
 }
 
-/* ===== Hero ===== */
+/* ===== Hero — mobile-first: single column ===== */
 .hero {
-  padding-block: var(--spacing-2xl);
   background-color: var(--color-bg-alt);
+  padding-block: var(--spacing-2xl);
 }
 
 .hero__inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-lg);
   align-items: center;
 }
 
@@ -175,7 +172,7 @@ a {
 
 .hero__title {
   font-size: var(--font-size-3xl);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--color-text);
   line-height: 1.2;
 }
@@ -183,17 +180,15 @@ a {
 .hero__subtitle {
   font-size: var(--font-size-lg);
   color: var(--color-text-light);
-  max-width: 480px;
 }
 
 .hero__img {
-  width: 100%;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  object-fit: cover;
+  width: 100%;
 }
 
-/* ===== Features ===== */
+/* ===== Features — mobile-first: single column ===== */
 .features {
   padding-block: var(--spacing-2xl);
 }
@@ -202,7 +197,7 @@ a {
   font-size: var(--font-size-2xl);
   font-weight: 700;
   text-align: center;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
   color: var(--color-text);
 }
 
@@ -216,8 +211,9 @@ a {
   background-color: var(--color-bg-alt);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
   text-align: center;
+  box-shadow: var(--shadow-sm);
   transition: box-shadow var(--transition), transform var(--transition);
 }
 
@@ -228,13 +224,14 @@ a {
 
 .feature-card__icon {
   font-size: 2.5rem;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .feature-card__title {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
+  color: var(--color-text);
 }
 
 .feature-card__desc {
@@ -246,7 +243,6 @@ a {
 .cta-section {
   background-color: var(--color-primary);
   padding-block: var(--spacing-2xl);
-  color: #ffffff;
 }
 
 .cta-section__inner {
@@ -254,36 +250,38 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 
 .cta-section__title {
-  font-size: var(--font-size-3xl);
-  font-weight: 800;
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .cta-section__sub {
-  font-size: var(--font-size-lg);
-  opacity: 0.85;
-  max-width: 540px;
+  font-size: var(--font-size-base);
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 48ch;
 }
 
 /* ===== Footer ===== */
 .footer {
-  background-color: var(--color-text);
-  color: #d1d5db;
-  padding-block: var(--spacing-lg);
+  background-color: var(--color-bg-alt);
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--spacing-md);
 }
 
 .footer__copy {
-  text-align: center;
   font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  text-align: center;
 }
 
-/* ===== Responsive: 768px (Tablet) ===== */
+/* ===== Responsive — Tablet (>= 768px) ===== */
 @media (min-width: 768px) {
-  .container {
-    padding-inline: var(--spacing-lg);
+  .hero__inner {
+    grid-template-columns: 1fr 1fr;
   }
 
   .hero__title {
@@ -291,33 +289,21 @@ a {
   }
 
   .features__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .nav a {
-    font-size: var(--font-size-base);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* ===== Responsive: 1280px (Desktop) ===== */
+/* ===== Responsive — Desktop (>= 1280px) ===== */
 @media (min-width: 1280px) {
-  .hero__inner {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .hero__title {
-    font-size: clamp(2.25rem, 3vw, 3rem);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
   }
 
-  .hero__subtitle {
-    font-size: var(--font-size-xl);
+  .features__grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  .section__title {
-    font-size: var(--font-size-3xl);
-  }
-
-  .cta-section__title {
-    font-size: clamp(1.875rem, 2.5vw, 2.5rem);
+  .container {
+    padding-inline: var(--spacing-lg);
   }
 }
