@@ -1,0 +1,1 @@
+{"name":"ttttt-frontend","version":"1.0.0","description":"Frontend boilerplate for ttttt — Visual & Responsive Test","scripts":{"start":"npx serve . --listen 3000","build":"echo 'Static build — no bundler required'","test":"npx jest tests/ --verbose"},"devDependencies":{"jest":"^29.7.0","jest-environment-jsdom":"^29.7.0"},"jest":{"testEnvironment":"jsdom"}}
